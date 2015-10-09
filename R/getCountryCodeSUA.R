@@ -8,6 +8,6 @@
 
 getCountryCodeSUA = function(country_name){
 map = GetCodeList("agriculture", "agriculture", "geographicAreaM49")
-  return(map$code[map$description == country])
+  return(map$code[map$description == country_name])
 }
 
