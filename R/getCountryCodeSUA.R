@@ -7,7 +7,8 @@
 
 
 getCountryCodeSUA = function(country_name){
-map = GetCodeList("agriculture", "agriculture", "geographicAreaM49")
-  return(map$code[map$description == country_name])
+map = read.csv("~/Github/faoswsIndustrial/Data/usdaMap.csv",
+                 stringsAsFactors = FALSE)
+  return(map$m49[map$usdaCode == country_name])
 }
 
