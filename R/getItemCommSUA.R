@@ -6,9 +6,9 @@
 ##'
 
 getItemCommSUA = function(Commodity_Description){
-  map = read.csv("~/Github/faoswsIndustrial/Data/cpcCodeDescription.csv",
+  map = read.csv("~/Github/faoswsIndustrial/Data/industrialUseCommodityMap.csv",
                  stringsAsFactors = FALSE)
-  return(map$itemCode[map$commodityDescription == Commodity_Description])
+  return(map$measuredItemCPC[map$Commodities == Commodity_Description])
 }
 
 
