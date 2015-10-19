@@ -1,4 +1,23 @@
-## This script mapping from USDA code to M49 code.
+## This script does mapping from USDA code to M49 code.
+
+## Load the library
+library(faosws)
+library(faoswsUtil)
+library(faoswsFlag)
+library(data.table)
+library(magrittr)
+library(igraph)
+library(dplyr)
+
+DEBUG_MODE = Sys.getenv("R_DEBUG_MODE")
+R_SWS_SHARE_PATH = Sys.getenv("R_SWS_SHARE_PATH")
+
+if(!exists("DEBUG_MODE") || DEBUG_MODE == ""){
+  token = "41558a20-c419-4821-8288-2dc7ccbc5ecf"
+  GetTestEnvironment("https://hqlqasws1.hq.un.fao.org:8181/sws",token)
+  
+}
+
 
 ## M49 codes and names:
 m49Code <- GetCodeList("agriculture", "agriculutre", "geographicAreaM49")
