@@ -120,5 +120,8 @@ industrialUsesData[, flagObservationStatus:= "I"]
 industrialUsesData[, flagMethod:= "e"]
 
 ## Save data
-SaveData(domain = "agriculture", dataset = "agriculture", data = industrialUsesData)
+stats = SaveData(domain = "agriculture", dataset = "agriculture", data = industrialUsesData)
 
+paste0(stats$inserted, " observations written, ",
+       stats$ignored, " weren't updated, ",
+       stats$discarded, " had problems.")
