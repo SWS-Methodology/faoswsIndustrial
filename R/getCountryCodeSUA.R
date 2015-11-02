@@ -8,7 +8,7 @@
 
 getCountryCodeSUA = function(country_name){
 map = read.csv("~/Github/faoswsIndustrial/Data/usdaMap.csv",
-                 stringsAsFactors = FALSE)
+                 stringsAsFactors = FALSE, na.strings = "")
   return(map$m49[map$usdaCode == country_name])
 }
 
