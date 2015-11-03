@@ -9,24 +9,6 @@ library(magrittr)
 library(igraph)
 library(dplyr)
 
-## set working diretory 
-workingDir = "~/Github/faoswsIndustrial/"
-
-## Read R.Data files
-load(file = paste0(workingDir, "Data/vegetableOilsData.RData", na.strings = ""))
-load(file = paste0(workingDir, "Data/nutrientData.RData"))
-
-vegetableOilsData <- data.table(vegetableOilsData)
-vegetableOilsData$Country_Code <- as.character(vegetableOilsData$Country_Code)
-vegetableOilsData$Country_Code[which(is.na(vegetableOilsData$Country_Code) == T)] <- "NA"
-
-
-## Read functions
-source(paste0(workingDir, "R/getBioFuelData.R"))
-source(paste0(workingDir, "R/getCPCTreeItem.R"))
-source(paste0(workingDir, "R/getCountryCodeSUA.R"))
-source(paste0(workingDir, "R/getItemCommSUA.R"))
-
 
 DEBUG_MODE = Sys.getenv("R_DEBUG_MODE")
 R_SWS_SHARE_PATH = Sys.getenv("R_SWS_SHARE_PATH")
@@ -37,53 +19,49 @@ if(!exists("DEBUG_MODE") || DEBUG_MODE == ""){
   
 }
 
-## Data manipulation: filter
-vegetableOilsDataForIndUses <- vegetableOilsData[Attribute_ID == 140]
+## Extracting data from USDA domain/dataset
 
-## Countries codes
-funcCountryCodes <- lapply(vegetableOilsDataForIndUses$Country_Code, 
-                                    getCountryCodeSUA)
+countryCodeInd <- GetCodeList("usda", "usda_psd_nv", "geographicAreaM49nv")
+elementInd <- GetCodeList("usda", "usda_psd_nv", dimension = "measuredElementPsd")
+itemInd <- GetCodeList("usda", "usda_psd_nv", dimension = "measuredItemPsd")
+yearRange <- as.character(1961:2015)
 
-## Commodities codes
-funcComCodes <- lapply(vegetableOilsDataForIndUses$Commodity_Description, 
-                       getItemCommSUA)
+countryDim1 <- Dimension(name = "geographicAreaM49nv", 
+                         keys = countryCodeInd[, code])
 
-## Cbind data
-vegetableOilsDataForIndUses <- cbind(vegetableOilsDataForIndUses,
-                                     geographicAreaM49 = do.call("rbind", funcCountryCodes),
-                                     measuredItemCPC = do.call("rbind", funcComCodes))
+elementDim2 <- Dimension(name = "measuredElementPsd", 
+                         keys = "140.08")
 
-## Data table
+itemDim3 <- Dimension(name = "measuredItemPsd",
+                      keys = itemInd[, code])
 
-vegetableOilsDataForIndUses <- data.table(vegetableOilsDataForIndUses)
+timePointYearsDim4 <- Dimension(name = "timePointYears",
+                                keys = yearRange)
 
-## Selecting some Variables
+dataKey <- DatasetKey(domain = "usda", dataset = "usda_psd_nv", 
+                      dimensions = list(countryDim1, elementDim2, itemDim3, 
+                                        timePointYearsDim4))
 
-vegetableOilsDataForIndUses <- vegetableOilsDataForIndUses[, list(measuredItemCPC.V1, Calendar_Year, Value), 
-                                                           by = list(geographicAreaM49.V1)]
+vegetableOilsDataForIndUses <- GetData(dataKey, flags = FALSE)
+vegetableOilsDataForIndUses[, measuredElementPsd := NULL]
 
-
-setnames(vegetableOilsDataForIndUses, c("geographicAreaM49", "measuredItemCPC", "timePointYears", "Value"))
-
-vegetableOilsDataForIndUses$geographicAreaM49 = as.character(vegetableOilsDataForIndUses$geographicAreaM49)
-vegetableOilsDataForIndUses$measuredItemCPC = as.character(vegetableOilsDataForIndUses$measuredItemCPC)
-vegetableOilsDataForIndUses$timePointYears = as.character(vegetableOilsDataForIndUses$timePointYears)
+setnames(vegetableOilsDataForIndUses, old = c("geographicAreaM49nv", "measuredItemPsd", "timePointYears", "Value"),
+         new = c("geographicAreaM49", "measuredItemCPC", "timePointYears", "Value"))
 
 ## Pull agricFeedStuffsForBioFuelData
 allCPCItem = getCPCTreeItem()
 agricFeedStuffsForBioFuelData <- getBioFuelData()
 
-lapply(agricFeedStuffsForBioFuelData, class)
 
 agricFeedStuffsForBioFuelData$geographicAreaM49 <- as.character(agricFeedStuffsForBioFuelData$geographicAreaM49)
 agricFeedStuffsForBioFuelData$measuredItemCPC <- as.character(agricFeedStuffsForBioFuelData$measuredItemCPC)
 agricFeedStuffsForBioFuelData$timePointYears <- as.character(agricFeedStuffsForBioFuelData$timePointYears)
 
-## Merge the two data set
+## Merge the two datasets
 
 industrialUsesData <- merge(agricFeedStuffsForBioFuelData, vegetableOilsDataForIndUses,
-                           by = c("geographicAreaM49", "measuredItemCPC", "timePointYears"),
-                           all = TRUE)
+                            by = c("geographicAreaM49", "measuredItemCPC", "timePointYears"),
+                            all = TRUE)
 
 
 industrialUsesData$Value_measuredElement_5150 <- as.numeric(industrialUsesData$Value_measuredElement_5150)
