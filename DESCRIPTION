@@ -12,7 +12,7 @@ swsDatasetDepends:
 	usda:usda_psd_nv,
 	industrialUse:biofuel,
 	agriculture:agriculture
-swsModuleDepends:
+swsModuleDepends
 LazyData: yes
 ZipData: no
 VignetteBuilder: knitr
