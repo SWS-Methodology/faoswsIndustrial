@@ -21,7 +21,7 @@ getCPCTreeItem = function(itemVar = "measuredItemCPC"){
     )
   
   itemEdgeGraph = igraph::graph.data.frame(itemEdgeList)
-  itemDist = shortest.paths(itemEdgeGraph, v = "CPC", mode = "out")
+  itemDist = igraph::shortest.paths(itemEdgeGraph, v = "CPC", mode = "out")
   fbsItemCodes = colnames(itemDist)[is.finite(itemDist) &
                                       colnames(itemDist) != "CPC"]
   fbsItemCodes
