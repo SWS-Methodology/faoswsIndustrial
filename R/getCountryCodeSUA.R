@@ -7,8 +7,12 @@
 
 
 getCountryCodeSUA = function(country_name){
-map = read.csv("~/Github/faoswsIndustrial/Data/usdaMap.csv",
+map = fread("~/Github/faoswsIndustrial/Data/usdaMap.csv",
                  stringsAsFactors = FALSE, na.strings = "")
-  return(map$m49[map$usdaCode == country_name])
+result = merge(map, data.table(usdaCode = country_name, index = 1:length(country_name)), 
+               by="usdaCode", all.y=T)
+setkeyv(result, "usdaCode")
+result <- result[order(result$index)]
+result[, m49]
 }
 
