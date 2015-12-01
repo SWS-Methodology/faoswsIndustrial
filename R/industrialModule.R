@@ -19,14 +19,20 @@ if(!exists("DEBUG_MODE") || DEBUG_MODE == ""){
   
 }
 
+source("~/Github/faoswsIndustrial/R/getBioFuelData.R")
+source("~/Github/faoswsIndustrial/R/getCPCTreeItem.R")
+source("~/Github/faoswsIndustrial/R/getCountryCodeSUA.R")
+source("~/Github/faoswsIndustrial/R/getItemCommSUA.R")
+
+
 ## Extracting data from USDA domain/dataset
 
-countryCodeInd <- GetCodeList("usda", "usda_psd_nv", "geographicAreaM49nv")
-elementInd <- GetCodeList("usda", "usda_psd_nv", dimension = "measuredElementPsd")
-itemInd <- GetCodeList("usda", "usda_psd_nv", dimension = "measuredItemPsd")
+countryCodeInd <- GetCodeList("usda", "usda_psd", "geographicUsda")
+elementInd <- GetCodeList("usda", "usda_psd", dimension = "measuredElementPsd")
+itemInd <- GetCodeList("usda", "usda_psd", dimension = "measuredItemPsd")
 yearRange <- as.character(1961:2015)
 
-countryDim1 <- Dimension(name = "geographicAreaM49nv", 
+countryDim1 <- Dimension(name = "geographicUsda", 
                          keys = countryCodeInd[, code])
 
 elementDim2 <- Dimension(name = "measuredElementPsd", 
@@ -38,15 +44,17 @@ itemDim3 <- Dimension(name = "measuredItemPsd",
 timePointYearsDim4 <- Dimension(name = "timePointYears",
                                 keys = yearRange)
 
-dataKey <- DatasetKey(domain = "usda", dataset = "usda_psd_nv", 
+dataKey <- DatasetKey(domain = "usda", dataset = "usda_psd", 
                       dimensions = list(countryDim1, elementDim2, itemDim3, 
                                         timePointYearsDim4))
 
 vegetableOilsDataForIndUses <- GetData(dataKey, flags = FALSE)
 vegetableOilsDataForIndUses[, measuredElementPsd := NULL]
+vegetableOilsDataForIndUses[, geographicAreaM49 := as.character(getCountryCodeSUA(geographicUsda))]
+vegetableOilsDataForIndUses[, measuredItemCPC := as.character(getItemCommSUA(measuredItemPsd))]
+vegetableOilsDataForIndUses[, c("geographicUsda", "measuredItemPsd") := NULL]
 
-setnames(vegetableOilsDataForIndUses, old = c("geographicAreaM49nv", "measuredItemPsd", "timePointYears", "Value"),
-         new = c("geographicAreaM49", "measuredItemCPC", "timePointYears", "Value"))
+setcolorder(vegetableOilsDataForIndUses, c("timePointYears", "geographicAreaM49", "measuredItemCPC", "Value"))
 
 ## Pull agricFeedStuffsForBioFuelData
 allCPCItem = getCPCTreeItem()
@@ -98,7 +106,7 @@ industrialUsesData[, flagObservationStatus:= "I"]
 industrialUsesData[, flagMethod:= "e"]
 
 ## Save data
-stats = SaveData(domain = "agriculture", dataset = "agriculture", data = industrialUsesData)
+stats = SaveData(domain = "agriculture", dataset = "aproduction", data = industrialUsesData)
 
 paste0(stats$inserted, " observations written, ",
        stats$ignored, " weren't updated, ",
