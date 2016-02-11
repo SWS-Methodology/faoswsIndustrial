@@ -1,0 +1,94 @@
+---
+title: "**faoswsIndustrial: Data Sources**"
+
+author: |
+  | **Bruno Caetano Vidigal**
+  | Food and Agriculture Organization of the United Nations
+output: pdf_document
+---
+---
+
+# About this document
+
+This vignette is a detailed guide of the various data sources used in the **Industrial Use**.
+
+
+```{r include=FALSE, cache=FALSE}
+## Load required functions
+library(data.table)
+library(knitr)
+library(igraph)
+```
+
+#1 Data Sources
+
+##1.1 Flow Chart
+
+## Description of how the Industrial Use works
+
+![](C:\Users\caetano\Documents\Github\faoswsIndustrial\vignettes\industrial.pdf)
+
+## 1.2 Example of tables
+
+* usda domain, usda_psd dataset. In this table there are the vegetables oils data by country and year provided by the United States Department of Agriculture.
+
+````{r, echo=FALSE}
+
+d=data.table(geographicUsda=c("CA", "CA", "CA", "CH", "CH", "CH"), measuredElementPsd=140.08, 
+measuredItemPsd=c("4239100", "4239100", "4239100", "0813100", "0813100", "0813100"),
+timePointYears = rep(c(2015, 2014, 2013), 2), Value=c(120, 108, 85, 1000, 980, 960))
+kable(d, format = "markdown", padding = 0)
+
+````
+
+* industrialUse domain, biofuel dataset. In this table there are the biofuels (such as maize) by country and year.
+
+````{r, echo=FALSE}
+
+d=data.table(geographicAreaM49=112, measuredItemCPC="01801", 
+timePointYears = seq(2000, 2005), Value=c(39.63288, 40.95939, 42.25281, 43.67861, 44.90584, 46.82236),
+flagObservationStatus_measuredElement_5150 = "",
+flagMethod_measuredElement_5150 = "")
+kable(d, format = "markdown", padding = 0)
+
+````
+
+#2 Process of Industrial Use
+
+
+1. to pull the vegetables oils data by country and year provided by the United States Department of Agriculture and stored in **usda/usda_psd**.
+
+````{r, echo=FALSE}
+
+d=data.table(geographicUsda=c("CA", "CA", "CA", "CH", "CH", "CH"), measuredElementPsd=140.08, 
+measuredItemPsd=c("4239100", "4239100", "4239100", "0813100", "0813100", "0813100"),
+timePointYears = rep(c(2015, 2014, 2013), 2), Value=c(120, 108, 85, 1000, 980, 960))
+kable(d, format = "markdown", padding = 0)
+
+````
+
+
+2. to pull the biofuels data by country and year provided by the United States Department of Agriculture and stored in **industrialUse/biofuel**.
+
+````{r, echo=FALSE}
+
+d=data.table(geographicUsda=c("CA", "CA", "CA", "CH", "CH", "CH"), measuredElementPsd=140.08, 
+measuredItemPsd=c("4239100", "4239100", "4239100", "0813100", "0813100", "0813100"),
+timePointYears = rep(c(2015, 2014, 2013), 2), Value=c(120, 108, 85, 1000, 980, 960))
+kable(d, format = "markdown", padding = 0)
+
+````
+
+3. to merge both datasets and calculate the quantity of industrial utilization. This dataset was saved in domain = "agriculture", dataset = "aproduction", data = industrialUsesData.
+
+````{r, echo=FALSE}
+
+d=data.table(geographicUsda=100, measuredItemCPC=2163, 
+timePointYears = seq(1992, 1997), 
+measuredElement = "5195",
+Value=c(15000, 39000, 62000, 57000, 45000, 25000),
+flagObservationStatus = "I",
+flagMethod = "e")
+kable(d, format = "markdown", padding = 0)
+
+````
