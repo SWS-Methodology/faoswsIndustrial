@@ -1,0 +1,236 @@
+---
+title: "**Industrial Use**"
+
+author: |
+  | **Bruno Caetano Vidigal**
+  | Food and Agriculture Organization of the United Nations
+output: pdf_document
+---
+---
+
+```{r include=FALSE, cache=FALSE}
+## Load required functions
+library(data.table)
+library(ggplot2)
+library(scales)
+library(knitr)
+library(faosws)
+library(faoswsUtil)
+library(faoswsFlag)
+library(magrittr)
+library(igraph)
+library(dplyr)
+
+```
+
+```{r include=FALSE, cache=FALSE}
+DEBUG_MODE = Sys.getenv("R_DEBUG_MODE")
+R_SWS_SHARE_PATH = Sys.getenv("R_SWS_SHARE_PATH")
+
+if(!exists("DEBUG_MODE") || DEBUG_MODE == ""){
+  token = "41558a20-c419-4821-8288-2dc7ccbc5ecf"
+  GetTestEnvironment("https://hqlqasws1.hq.un.fao.org:8181/sws", token)
+  
+}
+
+source("~/Github/faoswsIndustrial/R/getBioFuelData.R")
+source("~/Github/faoswsIndustrial/R/getCPCTreeItem.R")
+source("~/Github/faoswsIndustrial/R/getCountryCodeSUA.R")
+source("~/Github/faoswsIndustrial/R/getItemCommSUA.R")
+
+
+## Extracting data from USDA domain/dataset
+
+countryCodeInd <- GetCodeList("usda", "usda_psd", "geographicUsda")
+elementInd <- GetCodeList("usda", "usda_psd", dimension = "measuredElementPsd")
+itemInd <- GetCodeList("usda", "usda_psd", dimension = "measuredItemPsd")
+yearRange <- as.character(1961:2015)
+
+countryDim1 <- Dimension(name = "geographicUsda", 
+                         keys = countryCodeInd[, code])
+
+elementDim2 <- Dimension(name = "measuredElementPsd", 
+                         keys = "140.08")
+
+itemDim3 <- Dimension(name = "measuredItemPsd",
+                      keys = itemInd[, code])
+
+timePointYearsDim4 <- Dimension(name = "timePointYears",
+                                keys = yearRange)
+
+dataKey <- DatasetKey(domain = "usda", dataset = "usda_psd", 
+                      dimensions = list(countryDim1, elementDim2, itemDim3, 
+                                        timePointYearsDim4))
+
+vegetableOilsDataForIndUses <- GetData(dataKey, flags = FALSE)
+vegetableOilsDataForIndUses[, measuredElementPsd := NULL]
+vegetableOilsDataForIndUses[, geographicAreaM49 := as.character(getCountryCodeSUA(geographicUsda))]
+vegetableOilsDataForIndUses[, measuredItemCPC := as.character(getItemCommSUA(measuredItemPsd))]
+vegetableOilsDataForIndUses[, c("geographicUsda", "measuredItemPsd") := NULL]
+
+setcolorder(vegetableOilsDataForIndUses, c("timePointYears", "geographicAreaM49", "measuredItemCPC", "Value"))
+
+## Pull agricFeedStuffsForBioFuelData
+allCPCItem = getCPCTreeItem()
+agricFeedStuffsForBioFuelData <- getBioFuelData()
+
+
+agricFeedStuffsForBioFuelData$geographicAreaM49 <- as.character(agricFeedStuffsForBioFuelData$geographicAreaM49)
+agricFeedStuffsForBioFuelData$measuredItemCPC <- as.character(agricFeedStuffsForBioFuelData$measuredItemCPC)
+agricFeedStuffsForBioFuelData$timePointYears <- as.character(agricFeedStuffsForBioFuelData$timePointYears)
+
+## Merge the two datasets
+
+industrialUsesData <- merge(agricFeedStuffsForBioFuelData, vegetableOilsDataForIndUses,
+                            by = c("geographicAreaM49", "measuredItemCPC", "timePointYears"),
+                            all = TRUE)
+
+
+industrialUsesData$Value_measuredElement_5150 <- as.numeric(industrialUsesData$Value_measuredElement_5150)
+industrialUsesData$Value_measuredElement_5150[which(is.na(industrialUsesData$Value_measuredElement_5150))] <- 0
+industrialUsesData$Value[which(is.na(industrialUsesData$Value))] <- 0
+
+# Value_measuredElement_5150 is in tonns
+# Value is in 1000MT
+
+industrialUsesData[, Value_measuredElement_ind := Value_measuredElement_5150 + Value * 1000]
+
+
+# Save the data
+
+industrialUsesData[, c("Value", "Value_measuredElement_5150") := NULL]
+
+industrialUsesData[, industrialElement:= "5195"]
+
+setcolorder(industrialUsesData,
+            c("timePointYears", "geographicAreaM49", "measuredItemCPC", "industrialElement",
+              "Value_measuredElement_ind", "flagObservationStatus_measuredElement_5150", 
+              "flagMethod_measuredElement_5150"))
+
+
+setnames(industrialUsesData,
+         old = c("timePointYears", "geographicAreaM49", "measuredItemCPC", "industrialElement",
+                 "Value_measuredElement_ind", "flagObservationStatus_measuredElement_5150", 
+                 "flagMethod_measuredElement_5150"),
+         new = c("timePointYears", "geographicAreaM49", "measuredItemCPC", "measuredElement",
+                 "Value", "flagObservationStatus", "flagMethod"))
+
+
+industrialUsesData[, flagObservationStatus:= "I"]
+industrialUsesData[, flagMethod:= "e"]
+
+cpcCodes = GetCodeList("agriculture", "aproduction", "measuredItemCPC")
+setnames(cpcCodes, "code", "measuredItemCPC")
+
+countryNames = GetCodeList("agriculture", "aproduction", "geographicAreaM49")
+setnames(countryNames, old = c("code", "description"), new=c("geographicAreaM49", "countryName"))
+
+industrialUsesData <- merge(industrialUsesData, cpcCodes[, c("measuredItemCPC", "description"), with=F], by = "measuredItemCPC")
+industrialUsesData <- merge(industrialUsesData, countryNames[, c("geographicAreaM49", "countryName"), with=F], by = "geographicAreaM49")
+
+
+
+```
+
+# About this document
+
+In this document there are some statistics and summaries about the **Industrial Use**.
+
+# 1. Summaries
+
+````{r, echo=FALSE}
+
+tabSummary <- industrialUsesData[, list(country = length(unique(geographicAreaM49)),
+                          commodity = length(unique(description)),
+                          DateMin = min(timePointYears),
+                          DateMax = max(timePointYears))]
+
+kable(tabSummary, format = "markdown", padding = 0, 
+      col.names=c("Number of countries", "Number of commodities", "Min Date", "Max Date"))
+
+````
+
+In the plot below, we can see the number of countries with values for industrial utilization per year.
+````{r, echo=FALSE}
+tabYearCountry <- industrialUsesData[, list(value = sum(Value)),
+                                 by=list(countryName, timePointYears)]
+
+tabYearCountry <- tabYearCountry[order(-timePointYears, -value)]
+tabYearCountry <- tabYearCountry[order(-timePointYears, -value)]
+tabYearCountry[, percent := 100*round(value/sum(value), 3), by=timePointYears]
+tabYearCountry[, cumsum := cumsum(percent), by=timePointYears]
+
+
+tsCountryYear <- tabYearCountry[value > 0, .N, timePointYears]
+tsCountryYear$timePointYears <- as.numeric(tsCountryYear$timePointYears)
+
+
+ggplot(data=tsCountryYear, aes(x=timePointYears, y=N, group=1)) + 
+  geom_line(colour="blue", size=1.2) + scale_y_continuous(lim=c(0, 80), breaks=seq(0, 80, 10)) + 
+  scale_x_continuous(lim=c(1961, 2015),  breaks=seq(1961, 2015, 3)) + 
+  xlab("Year") + ylab("Number of countries")
+
+````
+
+
+# 2. Countries with more production for Industrial utilization in **2015**.
+
+Look at the 5 countries with more production for Industrial utilization represent  **`r paste0(max(head(tabYearCountry[, c("countryName", "value", "percent", "cumsum"), with=F], 5)$cumsum), '%')`** of all in 2015.
+````{r, echo=FALSE}
+
+kable(head(tabYearCountry[, c("countryName", "value", "percent", "cumsum"), with=F], 5), format = "markdown", padding = 0,
+      col.names=c("Country", "Value", "%", "Cumulative %"))
+
+````
+
+# 3. Commodities with more production for Industrial utilization in **2015**.
+
+````{r, echo=FALSE}
+
+tabYearCommodity <- industrialUsesData[, list(value = sum(Value)),
+                                     by=list(description, timePointYears)]
+
+tabYearCommodity <- tabYearCommodity[order(-timePointYears, -value)]
+
+tabYearCommodity[, percent := 100*round(value/sum(value), 3), by=timePointYears]
+tabYearCommodity[, cumsum := cumsum(percent), by=timePointYears]
+
+````
+
+Look at the 5 commodities with more production for Industrial utilization represent  **`r paste0(max(head(tabYearCommodity[, c("description", "value", "percent", "cumsum"), with=F], 5)$cumsum), '%')`** of all in 2015.
+
+````{r, echo=FALSE}
+
+kable(head(tabYearCommodity[, c("description", "value", "percent", "cumsum"), with=F], 5), format = "markdown", padding = 0,
+      col.names=c("Commodity", "Value", "%", "Cumulative %"))
+
+````
+
+The plot below shows the number of commodities with industrial utilization.
+
+````{r, echo=FALSE}
+tsCommodityYear <- tabYearCommodity[value > 0, .N, timePointYears]
+tsCommodityYear$timePointYears <- as.numeric(tsCommodityYear$timePointYears)
+
+
+ggplot(data=tsCommodityYear, aes(x=timePointYears, y=N, group=1)) + 
+  geom_line(colour="blue", size=1.2) + scale_y_continuous(lim=c(0, 20), breaks=seq(0, 20, 5)) + 
+  scale_x_continuous(lim=c(1961, 2015),  breaks=seq(1961, 2015, 3)) + 
+  xlab("Year") + ylab("Number of commodities")
+````
+
+#4. The plot below shows the times series for the five countries with more industrial utilization in 2015.
+
+````{r, echo=FALSE}
+top5countries2015 <- tabYearCountry[countryName %in% c("Brazil", "Indonesia", "Argentina", "China", "Malaysia")] 
+top5countries2015$timePointYears <- as.numeric(top5countries2015$timePointYears)
+top5countries2015[, value := value/1000]
+
+#options(scipen=999)
+ggplot(data=top5countries2015, aes(x=timePointYears, y=value, group=countryName, color=countryName)) + 
+  geom_line(size=1.2) + 
+  scale_y_continuous(lim=c(0, 7000), breaks=seq(0, 7000, 1000)) + 
+  scale_x_continuous(lim=c(1961, 2015),  breaks=seq(1961, 2015, 3)) + 
+  xlab("Year") + ylab("Quantity (M)") +
+theme(legend.title=element_blank())
+````
