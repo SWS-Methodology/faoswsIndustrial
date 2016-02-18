@@ -56,7 +56,7 @@ kable(d, format = "markdown", padding = 0)
 #2 Process of Industrial Use
 
 
-1. to pull the vegetables oils data by country and year provided by the United States Department of Agriculture and stored in **usda/usda_psd**.
+1. to pull the vegetables oils data by country and year provided by the United States Department of Agriculture and stored in **usda/usda_psd**. The values are in 1000 MT. We have to convert the country code provided by USDA to m49 country codes and the item psd to cpc codes as well. There are two datasets mapping these codes and they are stored on SWS Datatables.
 
 ````{r, echo=FALSE}
 
@@ -68,18 +68,18 @@ kable(d, format = "markdown", padding = 0)
 ````
 
 
-2. to pull the biofuels data by country and year provided by the United States Department of Agriculture and stored in **industrialUse/biofuel**.
+2. to pull the biofuels data by country and year provided by the **OECD-FAO (Make double check)** and stored in **industrialUse/biofuel**. The values are in **tonnes**. 
 
 ````{r, echo=FALSE}
 
-d=data.table(geographicUsda=c("CA", "CA", "CA", "CH", "CH", "CH"), measuredElementPsd=140.08, 
-measuredItemPsd=c("4239100", "4239100", "4239100", "0813100", "0813100", "0813100"),
-timePointYears = rep(c(2015, 2014, 2013), 2), Value=c(120, 108, 85, 1000, 980, 960))
+d=data.table(geographicAreaM49=112, measuredItemCPC="01801", 
+timePointYears = seq(2000, 2005), Value=c(39.63288, 40.95939, 42.25281, 43.67861, 44.90584, 46.82236),
+flagObservationStatus_measuredElement_5150 = "",
+flagMethod_measuredElement_5150 = "")
 kable(d, format = "markdown", padding = 0)
-
 ````
 
-3. to merge both datasets and calculate the quantity of industrial utilization. This dataset was saved in domain = "agriculture", dataset = "aproduction", data = industrialUsesData.
+3. to merge both datasets by country/year/cpc and calculate the quantity of industrial utilization. This quantity is just the sum of both values from each table. It's relevant to say that we have to convert the values from the second dataset to 1000 MT multiplying by 1,000. This dataset was saved in domain = "agriculture", dataset = "aproduction", data = industrialUsesData.
 
 ````{r, echo=FALSE}
 
