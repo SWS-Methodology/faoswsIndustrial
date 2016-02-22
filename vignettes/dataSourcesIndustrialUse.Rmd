@@ -57,6 +57,7 @@ kable(d, format = "markdown", padding = 0)
 
 
 1. to pull the vegetables oils data by country and year provided by the United States Department of Agriculture and stored in **usda/usda_psd**. The values are in 1000 MT. We have to convert the country code provided by USDA to m49 country codes and the item psd to cpc codes as well. There are two datasets mapping these codes and they are stored on SWS Datatables.
+You find the oilseed data set in this link: https://apps.fas.usda.gov/psdonline/psdDownload.aspx
 
 ````{r, echo=FALSE}
 
