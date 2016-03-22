@@ -1,0 +1,37 @@
+countryName,europeanCode,flagEU28
+Belgium,BE,1
+Bulgaria,BG,1
+Czech Republic,CZ,1
+Denmark,DK,1
+Germany,DE,1
+Estonia,EE,1
+Ireland,IE,1
+Greece,EL,1
+Spain,ES,1
+France,FR,1
+Croatia,HR,1
+Italy,IT,1
+Cyprus,CY,1
+Latvia,LV,1
+Lithuania,LT,1
+Luxembourg,LU,1
+Hungary,HU,1
+Malta,MT,1
+Netherlands,NL,1
+Austria,AT,1
+Poland,PL,1
+Portugal,PT,1
+Romania,RO,1
+Slovenia,SI,1
+Slovakia,SK,1
+Finland,FI,1
+Sweden,SE,1
+United Kingdom,UK,1
+Norway,NO,0
+Montenegro,ME,0
+"Former Yugoslav Republic of Macedonia, the",MK,0
+Serbia,RS,0
+Turkey,TR,0
+Bosnia and Herzegovina,BA,0
+European Union (28 countries),EU28,0
+Euro area (19 countries),EA19,0
