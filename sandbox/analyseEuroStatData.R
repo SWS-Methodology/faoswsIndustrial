@@ -131,33 +131,124 @@ if(swsContext.computationParams$yearToProcess <= 2011)
 
 ## This code below is pulling data from the old system for "Other util"
 
-country <- GetCodeList("faostat_one", "FS1_SUA_UPD", "geographicAreaFS")
-element <- GetCodeList("faostat_one", "FS1_SUA_UPD", dimension = "measuredElementFS")
-item <- GetCodeList("faostat_one", "FS1_SUA_UPD", dimension = "measuredItemFS")
-yearRange <- as.character(2003:2010)
 
-countryDim1 <- Dimension(name = "geographicAreaFS", 
-                         keys = country[, code])
+# 51 production (Mt)
+# 61 imports (Mt)
+# 71 stock variation (Mt) 
+# 91 exports (Mt)  
+# 101 feed (Mt)
+# 131 processed (Mt)
+# 141 food (Mt)
+# 151 other util
 
-elementDim2 <- Dimension(name = "measuredElementFS", 
-                         keys = "151")
+elements = c("51", "61", "71", "91", "101", "131", "141", "151")
 
-itemDim3 <- Dimension(name = "measuredItemFS",
-                      keys = item[, code])
+# As we want to analyse just the results for biodiesel, let's pull just the 
+# commodities used to produce it. The names of the commodities are: "Oil palm fruit",
+# "Palm oil", "Oil of Palm Kernel", "Cake of  Palm kernel", "Rapeseed or canola oil, crude",
+# "Cake of  Rapeseed", "Soya bean oil", "Cake of  Soya beans", "Sunflower-seed oil, crude",
+# "Cake of  Sunflower seed", ""
 
-timePointYearsDim4 <- Dimension(name = "timePointYears",
-                                keys = yearRange)
+items = c("254", "257", "258", "259", "271", "272", "237", "238", "268", "269")
 
-dataKey <- DatasetKey(domain = "faostat_one", dataset = "FS1_SUA_UPD", 
-                      dimensions = list(countryDim1, elementDim2, itemDim3, 
-                                        timePointYearsDim4))
+key = DatasetKey(domain = "faostat_one", dataset = "FS1_SUA_UPD", dimensions = list(
+  Dimension(name = "geographicAreaFS", keys = GetCodeList("faostat_one", "FS1_SUA_UPD", "geographicAreaFS")[, code]),
+  Dimension(name = "measuredElementFS", keys = elements),
+  Dimension(name = "timePointYears", keys = as.character(2011)),
+  Dimension(name = "measuredItemFS", keys = items))
+)
+data = GetData(key)
 
-data <- GetData(dataKey, flags = FALSE)
-data[, m49 := fs2m49(geographicAreaFS)]
+
+#initialData = copy(data)
+
+data <- dcast.data.table(data,
+                         geographicAreaFS + measuredItemFS + timePointYears ~ measuredElementFS,
+                         value.var = "Value")
+
+
+setnames(data, old=c("101", "131", "141", "151", "51", "61", "71", "91"),
+         new=c("feed", "processed", "food", "otherUtil", "production", "imports", "stockVariation", "exports"))
+
+
+data[, geographicAreaM49 := fs2m49(as.character(geographicAreaFS))]
+
 data[, measuredItemFS := formatC(as.numeric(measuredItemFS), width = 4,
                                  flag = "0")]
 data[, measuredItemCPC := fcl2cpc(as.character(measuredItemFS))]
+data
+
 data <- nameData("agriculture", "aproduction", data)
+
+data[grepl("palm", tolower(measuredItemCPC_description))][, .N, c("measuredItemCPC_description", "measuredItemFS")]
+data[grepl("palm", tolower(measuredItemCPC_description)), commodity := "Palm Fruit"]
+
+
+data[grepl("rapeseed", tolower(measuredItemCPC_description))][, .N, c("measuredItemCPC_description", "measuredItemFS")]
+data[grepl("rapeseed", tolower(measuredItemCPC_description)), commodity := "Rapeseed"]
+
+
+data[grepl("soya", tolower(measuredItemCPC_description))][, .N, c("measuredItemCPC_description", "measuredItemFS")]
+data[grepl("soya", tolower(measuredItemCPC_description)), commodity := "Soybeans"]
+
+data[grepl("sunflower", tolower(measuredItemCPC_description))][, .N, c("measuredItemCPC_description", "measuredItemFS")]
+data[grepl("sunflower", tolower(measuredItemCPC_description)), commodity := "Sunflower"]
+
+
+data[, .N, commodity]
+data[geographicAreaM49 == "250"]
+
+
+for(cname in c("feed", "processed", "food", "otherUtil", "production", 
+               "imports", "stockVariation", "exports")){
+  data[is.na(get(cname)), c(cname) := 0]
+}
+
+data[, prodNetTrade := production + imports - exports - stockVariation]
+
+data[geographicAreaM49 == "250" & commodity == "Soybeans"]
+
+data[, list(prodNetTradeTotal = sum(prodNetTrade)),
+     by=list(geographicAreaM49_description, geographicAreaM49, commodity)]
+
+data[, geographicAreaM49:= as.factor(geographicAreaM49)]
+
+# let's read the table with the flag to EU28
+setwd("C:/Users/caetano/Documents/Github/faoswsIndustrial/sandbox")
+europeanCountryCode = fread("europeanCountryCode.csv")
+europeanCountryCode[, geographicAreaM49 :=  as.factor(countrycode(countryName, "country.name", "un"))]
+europeanCountryCode = europeanCountryCode[flagEU28 == 1]
+europeanCountryCode
+
+
+# merge data with the the flag of EU28
+
+class(data$geographicAreaM49)
+class(europeanCountryCode$geographicAreaM49)
+
+data = merge(data, europeanCountryCode[, c("geographicAreaM49", "flagEU28"), with = F],
+      by = "geographicAreaM49", all.x=T)
+
+data[, flagEU28 := as.factor(flagEU28)]
+
+data[is.na(flagEU28), flagEU28 := 0]
+
+data[, .N, flagEU28]
+
+tab1 = data[, list(prodNetTrade = sum(prodNetTrade)),
+     by=list(geographicAreaM49, geographicAreaM49_description, flagEU28, commodity)]
+
+tab1[geographicAreaM49 == "250"]
+
+tab1[, percentByCountry := prodNetTrade/sum(prodNetTrade), 
+     by = geographicAreaM49]
+
+
+tab2 = data[, list(prodNetTrade = sum(prodNetTrade)),
+     by=list(flagEU28, commodity)]
+
+tab2[, percentByCountry := prodNetTrade/sum(prodNetTrade), 
+     by = flagEU28]
 
 ## Comparing data
 
