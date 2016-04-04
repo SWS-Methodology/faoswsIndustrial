@@ -1,4 +1,8 @@
+sandbox
+industrialModule.R
 README.md
+.*.zip
+.*.xml
 .git
 ^.*\.Rproj$
 ^\.Rproj\.user$
