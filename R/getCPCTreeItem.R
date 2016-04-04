@@ -4,6 +4,10 @@
 ##' 
 ##' @return Codes
 ##' 
+##' @export
+##' 
+##' @import igraph
+##' 
 
 getCPCTreeItem = function(itemVar = "measuredItemCPC"){
   ## itemTable =

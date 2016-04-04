@@ -4,6 +4,8 @@
 ##' 
 ##' @return Codes
 ##'
+##' @export
+##' 
 
 
 getCountryCodeSUA = function(country_name){

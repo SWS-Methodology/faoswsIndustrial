@@ -7,6 +7,8 @@
 ##' 
 ##' @return Codes
 ##' 
+##' @export
+##' 
 
 
 

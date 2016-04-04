@@ -4,6 +4,8 @@
 ##' 
 ##' @return Codes
 ##'
+##' @export
+##' 
 
 getItemCommSUA = function(Measured_Item_Psd){
   map = fread("~/Github/faoswsIndustrial/Data/industrialUseCommodityMap.csv",
