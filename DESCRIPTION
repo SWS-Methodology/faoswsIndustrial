@@ -9,7 +9,6 @@ Description: Package to perform the imputation of industrial data
 URL: https://github.com/SWS-Methodology/faoswsIndustrial
 License: GPL (>= 3)
 swsDatasetDepends: usda:usda_psd_nv,
-    industrialUse:biofuel,
     agriculture:agriculture
 swsModuleDepends: 
 LazyData: yes
