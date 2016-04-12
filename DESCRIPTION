@@ -8,6 +8,8 @@ Maintainer: Bruno Caetano Vidigal <bruno.caetanovidigal@fao.org>
 Description: Package to perform the imputation of industrial data
 URL: https://github.com/SWS-Methodology/faoswsIndustrial
 License: GPL (>= 3)
+Imports:
+    countrycode
 swsDatasetDepends: usda:usda_psd_nv,
     agriculture:agriculture
 swsModuleDepends: 
