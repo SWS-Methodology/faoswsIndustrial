@@ -50,6 +50,7 @@ dataKey <- DatasetKey(domain = "usda", dataset = "usda_psd",
 
 vegetableOilsDataForIndUses <- GetData(dataKey, flags = FALSE)
 vegetableOilsDataForIndUses[, measuredElementPsd := NULL]
+vegetableOilsDataForIndUses[, measuredItemCPC := as.character(getItemCommSUA(measuredItemPsd))]
 
 # Code used to split the data of european union countries from 1991 to 2015
 
@@ -57,7 +58,7 @@ vegetableOilsDataForIndUses[, measuredElementPsd := NULL]
 # Let's put all together.
 vegetableOilsDataForIndUses[geographicUsda %in% c("GE", "GC"), geographicUsda := "GM"]
 vegetableOilsDataForIndUses = vegetableOilsDataForIndUses[, list(Value = sum(Value)),
-                                                          by=c("geographicUsda", "measuredItemPsd", "timePointYears")]
+                                                          by=c("geographicUsda", "measuredItemCPC", "timePointYears")]
 
 # Let's split the data for E2 (EU-15) and for E4 (EU-28) but
 # first, we need to calculate the proportion by country
@@ -96,23 +97,23 @@ vegetableOilsDataForIndUses[geographicUsda %in% europeanCountries, list(length(u
 
 # Czech Republic (EZ)
 countryEZ = vegetableOilsDataForIndUses[geographicUsda == "EZ"]
-fitEZ = lm(data=countryEZ[Value > 0 & measuredItemPsd == "4239100"],
+fitEZ = lm(data=countryEZ[Value > 0 & measuredItemCPC == "21641.01"],
            Value ~ as.numeric(timePointYears))
 fitEZ$coefficients[1] + fitEZ$coefficients[2] * 1990
 
-czechRepublic = data.table(geographicUsda = "EZ",
-                           measuredItemPsd = "4239100",
-                           timePointYears = 1990,
-                           Value = 80.11429)
+czechRepublic = data.table(geographicUsda = rep("EZ", 2),
+                           measuredItemCPC = c("21641.01", "21611"),
+                           timePointYears = rep(1990, 2),
+                           Value = c(80.11429, 1))
 
 # Slovakia (LO)
 countryLO = vegetableOilsDataForIndUses[geographicUsda == "LO"]
-fitLO = lm(data=countryLO[Value > 0 & measuredItemPsd == "4239100"],
+fitLO = lm(data=countryLO[Value > 0 & measuredItemCPC == "21641.01"],
            Value ~ as.numeric(timePointYears))
 fitLO$coefficients[1] + fitLO$coefficients[2] * 1990
 
 slovakia = data.table(geographicUsda = "LO",
-                      measuredItemPsd = "4239100",
+                      measuredItemCPC = "21641.01",
                       timePointYears = 1990,
                       Value = 6.171429)
 
@@ -132,7 +133,7 @@ europeanCountry1990[, .N, geographicUsda]
 tab1991to1994 = europeanCountry1990[geographicUsda %in% unique(memberStatesEU[accession %in% c("before1990")][, usdaCode])]
 
 tab1991to1994[, percent := Value/sum(Value),
-              by="measuredItemPsd"]
+              by="measuredItemCPC"]
 
 tab1991to1994[, timePointYears := NULL]
 
@@ -144,7 +145,7 @@ percent1991to1994 = cbind(percent1991to1994, timePointYears = rep(1991:1994,
 tab1995to2003 = europeanCountry1990[geographicUsda %in% unique(memberStatesEU[accession %in% c("before1990", "1995")][, usdaCode])]
 
 tab1995to2003[, percent := Value/sum(Value),
-              by="measuredItemPsd"]
+              by="measuredItemCPC"]
 
 tab1995to2003[, timePointYears := NULL]
 
@@ -156,7 +157,7 @@ percent1995to2003 = cbind(percent1995to2003, timePointYears = rep(1995:2003, eac
 tab2004to2006 = europeanCountry1990[geographicUsda %in% unique(memberStatesEU[accession %in% c("before1990", "1995", "2004")][, usdaCode])]
 
 tab2004to2006[, percent := Value/sum(Value),
-              by="measuredItemPsd"]
+              by="measuredItemCPC"]
 
 tab2004to2006[, timePointYears := NULL]
 
@@ -168,7 +169,7 @@ percent2004to2006 = cbind(percent2004to2006,
 tab2007to2012 = europeanCountry1990[geographicUsda %in% unique(memberStatesEU[accession %in% c("before1990", "1995", "2004", "2007")][, usdaCode])]
 
 tab2007to2012[, percent := Value/sum(Value),
-              by="measuredItemPsd"]
+              by="measuredItemCPC"]
 
 tab2007to2012[, timePointYears := NULL]
 
@@ -182,7 +183,7 @@ percent2007to2012 = cbind(percent2007to2012, timePointYears = rep(2007:2012,
 tab2013to2015 = europeanCountry1990[geographicUsda %in% unique(memberStatesEU[accession %in% c("before1990", "1995", "2004", "2007", "2013")][, usdaCode])]
 
 tab2013to2015[, percent := Value/sum(Value),
-              by="measuredItemPsd"]
+              by="measuredItemCPC"]
 
 tab2013to2015[, timePointYears := NULL]
 
@@ -203,7 +204,7 @@ e2E4 = vegetableOilsDataForIndUses[geographicUsda %in% c("E4", "E2")]
 e2E4
 
 # Final merge
-keys = c("measuredItemPsd", "timePointYears")
+keys = c("measuredItemCPC", "timePointYears")
 estimated = merge(e2E4, dataPercent, by=keys,
                   all.x=T)
 
@@ -211,7 +212,7 @@ estimated[, percentValue := Value * percent]
 estimated[, c("geographicUsda", "Value", "percent") := NULL]
 setnames(estimated, "percentValue", "Value")
 setnames(estimated, "usdaCode", "geographicUsda")
-setcolorder(estimated, c("geographicUsda", "measuredItemPsd", "timePointYears", "Value"))
+setcolorder(estimated, c("geographicUsda", "measuredItemCPC", "timePointYears", "Value"))
 estimated = estimated[!is.na(Value)]
 estimated[, group := "estimated"]
 
@@ -222,8 +223,7 @@ industrialUsesData = rbind(vegetableOilsDataForIndUses, estimated)
 ##
 
 industrialUsesData[, geographicAreaM49 := as.character(getCountryCodeSUA(geographicUsda))]
-industrialUsesData[, measuredItemCPC := as.character(getItemCommSUA(measuredItemPsd))]
-industrialUsesData[, c("geographicUsda", "measuredItemPsd", "group") := NULL]
+industrialUsesData[, c("geographicUsda", "group") := NULL]
 
 setcolorder(industrialUsesData, c("timePointYears", "geographicAreaM49", "measuredItemCPC", "Value"))
 
