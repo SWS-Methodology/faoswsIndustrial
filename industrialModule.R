@@ -62,7 +62,7 @@ vegetableOilsDataForIndUses = vegetableOilsDataForIndUses[, list(Value = sum(Val
 
 # Let's split the data for E2 (EU-15) and for E4 (EU-28) but
 # first, we need to calculate the proportion by country
-memberStatesEU = fread("sandbox/memberStatesEU.csv")
+memberStatesEU = fread("Data/memberStatesEU.csv")
 europeanCountries = memberStatesEU[, .N, usdaCode][, usdaCode]
 
 # Belgium and Luxembourg provided figures together to USDA. So, basically we need to split the data into these countries.
