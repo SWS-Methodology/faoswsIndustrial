@@ -233,7 +233,7 @@ industrialUsesData[, Value_measuredElement_ind := Value * 1000]
 # Save the data
 
 industrialUsesData[, "Value" := NULL]
-industrialUsesData[, industrialElement:= "5195"]
+industrialUsesData[, industrialElement:= "5165"]
 
 setcolorder(industrialUsesData,
             c("timePointYears", "geographicAreaM49", "measuredItemCPC", "industrialElement",
