@@ -1,251 +1,250 @@
-"usdaCode","usdaCountryName","m49"
-"--","Other",NA
-"AA","Aruba",533
-"AC","Antigua and Barbuda",28
-"AF","Afghanistan",4
-"AG","Algeria",12
-"AJ","Azerbaijan, Republic of",31
-"AL","Albania",8
-"AM","Armenia, Republic of",51
-"AO","Angola",24
-"AR","Argentina",32
-"AS","Australia",36
-"AU","Austria",40
-"AV","Anguilla",660
-"BA","Bahrain",48
-"BB","Barbados",52
-"BC","Botswana",72
-"BD","Bermuda",60
-"BE","Belgium",56
-"BF","Bahamas, The",44
-"BG","Bangladesh",50
-"BH","Belize",84
-"BK","Bosnia-Hercegovina",70
-"BL","Bolivia",68
-"BM","Burma",104
-"BO","Belarus",112
-"BP","Solomon Islands",90
-"BR","Brazil",76
-"BT","Bhutan",64
-"BU","Bulgaria",100
-"BX","Brunei",96
-"BY","Burundi",108
-"C1","Caribbean Basin",NA
-"CA","Canada",124
-"CB","Cambodia",116
-"CD","Chad",148
-"CE","Sri Lanka",144
-"CF","Congo (Brazzaville)",178
-"CG","Congo, Democratic Rep of the",180
-"CH","China, Peoples Republic of",156
-"CI","Chile",152
-"CJ","Cayman Islands",136
-"CM","Cameroon",120
-"CN","Comoros",174
-"CO","Colombia",170
-"CS","Costa Rica",188
-"CT","Central African Republic",140
-"CU","Cuba",192
-"CV","Cape Verde",132
-"CY","Cyprus",196
-"CZ","Czechoslovakia",NA
-"DA","Denmark",208
-"DJ","Djibouti Afars-Issas",262
-"DM","Benin",204
-"DO","Dominica",212
-"DR","Dominican Republic",214
-"E2","EU-15",NA
-"E3","EU-25",NA
-"E4","European Union",NA
-"EC","Ecuador",218
-"EG","Egypt",818
-"EI","Ireland",372
-"EK","Equatorial Guinea",226
-"EN","Estonia",233
-"ER","Eritrea",232
-"ES","El Salvador",222
-"ET","Ethiopia",231
-"EZ","Czech Republic",203
-"FA","Falkland Islands (Islas Malvin",238
-"FG","French Guiana",254
-"FI","Finland",246
-"FJ","Fiji",242
-"FO","Faroe Islands",234
-"FP","French Polynesia",258
-"FR","France",250
-"FT","Fr.Ter.Africa-Issas",NA
-"GA","Gambia, The",270
-"GB","Gabon",266
-"GC","German Democratic Republic",NA
-"GE","Germany, Federal Republic of",NA
-"GG","Georgia, Republic of",268
-"GH","Ghana",288
-"GI","Gibraltar",292
-"GJ","Grenada",308
-"GL","Greenland",304
-"GM","Germany",276
-"GN","Gilbert and Ellice Islands",NA
-"GP","Guadeloupe",312
-"GQ","Guam",NA
-"GR","Greece",300
-"GT","Guatemala",320
-"GU","Guinea",324
-"GY","Guyana",328
-"GZ","Gaza Strip",NA
-"HA","Haiti",332
-"HK","Hong Kong",344
-"HO","Honduras",340
-"HR","Croatia",191
-"HU","Hungary",348
-"IC","Iceland",352
-"ID","Indonesia",360
-"IN","India",356
-"IO","British Ind. Ocean Territory",NA
-"IR","Iran",364
-"IS","Israel",376
-"IT","Italy",380
-"IV","Cote d'Ivoire",384
-"IZ","Iraq",368
-"JA","Japan",392
-"JM","Jamaica and Dep",388
-"JO","Jordan",400
-"KE","Kenya",404
-"KG","Kyrgyzstan, Republic of",417
-"KN","Korea, Democratic Peoples Rep",408
-"KS","Korea, Republic of",410
-"KU","Kuwait",414
-"KZ","Kazakhstan, Republic of",398
-"LA","Laos",418
-"LE","Lebanon",422
-"LG","Latvia",428
-"LH","Lithuania",440
-"LI","Liberia",430
-"LO","Slovakia",703
-"LT","Lesotho",426
-"LU","Luxembourg",442
-"LY","Libya",434
-"MA","Madagascar",450
-"MB","Martinique",474
-"MC","Macau",446
-"MD","Moldova, Republic of",498
-"MG","Mongolia",496
-"MH","Montserrat",500
-"MI","Malawi",454
-"MK","Macedonia (Skopje)",807
-"ML","Mali",466
-"MO","Morocco",504
-"MP","Mauritius",480
-"MQ","Midway Islands",NA
-"MR","Mauritania",478
-"MT","Malta and Gozp",470
-"MU","Oman",512
-"MV","Maldive Islands",462
-"MX","Mexico",484
-"MY","Malaysia",458
-"MZ","Mozambique",508
-NA,"Netherlands Antilles",NA
-"NC","New Caledonia",540
-"NG","Niger",562
-"NH","Vanuatu/New Hebrides",548
-"NI","Nigeria",566
-"NL","Netherlands",528
-"NO","Norway",578
-"NP","Nepal",524
-"NQ","Trust Territory of the Pacific",NA
-"NR","Nauru",520
-"NS","Surinam",740
-"NU","Nicaragua",558
-"NZ","New Zealand",554
-"OD","South Sudan",728
-"PA","Paraguay",600
-"PE","Peru",604
-"PK","Pakistan",586
-"PL","Poland",616
-"PN","Panama",591
-"PO","Portugal",620
-"PP","Papua New Guinea",598
-"PU","Guinea-Bissau",624
-"QA","Qatar",634
-"RB","Serbia",688
-"RE","Reunion",638
-"RH","Zimbabwe",716
-"RO","Romania",642
-"RP","Philippines",608
-"RQ","Puerto Rico",630
-"RS","Russian Federation",643
-"RW","Rwanda",646
-"S8","Belgium (without Luxembourg)",NA
-"SA","Saudi Arabia",682
-"SB","St. Pierre and Miquelon",NA
-"SC","St. Kitts and Nevis",659
-"SE","Seychelles",690
-"SF","South Africa, Republic of",710
-"SG","Senegal",686
-"SH","St. Helena (Br W Afr)",654
-"SI","Slovenia",705
-"SL","Sierra Leone",694
-"SN","Singapore",702
-"SO","Somalia",706
-"SP","Spain",724
-"SR","Serbia and Montenegro",891
-"ST","St. Lucia",662
-"SU","Sudan",729
-"SW","Sweden",752
-"SY","Syria",760
-"SZ","Switzerland",756
-"T3","Africa, NEC",NA
-"T4","French Equatorial Africa",NA
-"T8","Fernando Po",NA
-"TC","United Arab Emirates",784
-"TD","Trinidad and Tobago",780
-"TH","Thailand",764
-"TI","Tajikistan, Republic of",762
-"TK","Turks and Caicos Islands",NA
-"TN","Tonga",776
-"TO","Togo",768
-"TP","Sao Tome and Principe",678
-"TS","Tunisia",788
-"TU","Turkey",792
-"TW","Taiwan",158
-"TX","Turkmenistan",795
-"TZ","Tanzania, United Republic of",834
-"UG","Uganda",800
-"UK","United Kingdom",826
-"UP","Ukraine",804
-"UR","Union of Soviet Socialist Repu",NA
-"US","United States",840
-"UV","Burkina",854
-"UY","Uruguay",858
-"UZ","Uzbekistan, Republic of",860
-"V1","Vietnam, North",NA
-"V2","Vietnam, Republic of (South)",NA
-"VC","St. Vincent and the Grenadines",670
-"VE","Venezuela",862
-"VI","British Virgin Islands",92
-"VM","Vietnam",704
-"VO","Virgin Islands of the U.S.",850
-"W7","British West Pacific Islands",NA
-"WA","Namibia",516
-"WE","West Bank",NA
-"WI","Western Sahara",732
-"WQ","Wake Island",NA
-"WS","Western Samoa",882
-"WZ","Swaziland",748
-"X3","Canton and Enderbury Islands",NA
-"X6","French Ind. Ocean Territory",NA
-"X8","Southern Asia NEC",NA
-"Y1","Leeward-Windward Islands",NA
-"Y2","French West Indies",NA
-"Y3","Azores",NA
-"Y7","Canary Islands",NA
-"Y9","Madeira Islands",NA
-"YE","Yemen (Sanaa)",NA
-"YI","Yugoslavia (>01/2001)",NA
-"YM","Yemen",887
-"YO","Yugoslavia",NA
-"YS","Yemen (Aden)",NA
-"YU","Yugoslavia (>05/92)",NA
-"Z5","Ryukyu Islands/Nansei Islands",NA
-"Z7","Other Pacific Islands, NEC",NA
-"ZA","Zambia",894
-"LU","Luxembourg",442
+usdaCode,usdaCountryName,m49
+--,Other,NA
+AA,Aruba,533
+AC,Antigua and Barbuda,28
+AF,Afghanistan,4
+AG,Algeria,12
+AJ,"Azerbaijan, Republic of",31
+AL,Albania,8
+AM,"Armenia, Republic of",51
+AO,Angola,24
+AR,Argentina,32
+AS,Australia,36
+AU,Austria,40
+AV,Anguilla,660
+BA,Bahrain,48
+BB,Barbados,52
+BC,Botswana,72
+BD,Bermuda,60
+BE,Belgium,56
+BF,"Bahamas, The",44
+BG,Bangladesh,50
+BH,Belize,84
+BK,Bosnia-Hercegovina,70
+BL,Bolivia,68
+BM,Burma,104
+BO,Belarus,112
+BP,Solomon Islands,90
+BR,Brazil,76
+BT,Bhutan,64
+BU,Bulgaria,100
+BX,Brunei,96
+BY,Burundi,108
+C1,Caribbean Basin,NA
+CA,Canada,124
+CB,Cambodia,116
+CD,Chad,148
+CE,Sri Lanka,144
+CF,Congo (Brazzaville),178
+CG,"Congo, Democratic Rep of the",180
+CH,"China, Peoples Republic of",156
+CI,Chile,152
+CJ,Cayman Islands,136
+CM,Cameroon,120
+CN,Comoros,174
+CO,Colombia,170
+CS,Costa Rica,188
+CT,Central African Republic,140
+CU,Cuba,192
+CV,Cape Verde,132
+CY,Cyprus,196
+CZ,Czechoslovakia,NA
+DA,Denmark,208
+DJ,Djibouti Afars-Issas,262
+DM,Benin,204
+DO,Dominica,212
+DR,Dominican Republic,214
+E2,EU-15,NA
+E3,EU-25,NA
+E4,European Union,NA
+EC,Ecuador,218
+EG,Egypt,818
+EI,Ireland,372
+EK,Equatorial Guinea,226
+EN,Estonia,233
+ER,Eritrea,232
+ES,El Salvador,222
+ET,Ethiopia,231
+EZ,Czech Republic,203
+FA,Falkland Islands (Islas Malvin,238
+FG,French Guiana,254
+FI,Finland,246
+FJ,Fiji,242
+FO,Faroe Islands,234
+FP,French Polynesia,258
+FR,France,250
+FT,Fr.Ter.Africa-Issas,NA
+GA,"Gambia, The",270
+GB,Gabon,266
+GC,German Democratic Republic,NA
+GE,"Germany, Federal Republic of",NA
+GG,"Georgia, Republic of",268
+GH,Ghana,288
+GI,Gibraltar,292
+GJ,Grenada,308
+GL,Greenland,304
+GM,Germany,276
+GN,Gilbert and Ellice Islands,NA
+GP,Guadeloupe,312
+GQ,Guam,NA
+GR,Greece,300
+GT,Guatemala,320
+GU,Guinea,324
+GY,Guyana,328
+GZ,Gaza Strip,NA
+HA,Haiti,332
+HK,Hong Kong,344
+HO,Honduras,340
+HR,Croatia,191
+HU,Hungary,348
+IC,Iceland,352
+ID,Indonesia,360
+IN,India,356
+IO,British Ind. Ocean Territory,NA
+IR,Iran,364
+IS,Israel,376
+IT,Italy,380
+IV,Cote d'Ivoire,384
+IZ,Iraq,368
+JA,Japan,392
+JM,Jamaica and Dep,388
+JO,Jordan,400
+KE,Kenya,404
+KG,"Kyrgyzstan, Republic of",417
+KN,"Korea, Democratic Peoples Rep",408
+KS,"Korea, Republic of",410
+KU,Kuwait,414
+KZ,"Kazakhstan, Republic of",398
+LA,Laos,418
+LE,Lebanon,422
+LG,Latvia,428
+LH,Lithuania,440
+LI,Liberia,430
+LO,Slovakia,703
+LT,Lesotho,426
+LU,Luxembourg,442
+LY,Libya,434
+MA,Madagascar,450
+MB,Martinique,474
+MC,Macau,446
+MD,"Moldova, Republic of",498
+MG,Mongolia,496
+MH,Montserrat,500
+MI,Malawi,454
+MK,Macedonia (Skopje),807
+ML,Mali,466
+MO,Morocco,504
+MP,Mauritius,480
+MQ,Midway Islands,NA
+MR,Mauritania,478
+MT,Malta and Gozp,470
+MU,Oman,512
+MV,Maldive Islands,462
+MX,Mexico,484
+MY,Malaysia,458
+MZ,Mozambique,508
+NA,Netherlands Antilles,NA
+NC,New Caledonia,540
+NG,Niger,562
+NH,Vanuatu/New Hebrides,548
+NI,Nigeria,566
+NL,Netherlands,528
+NO,Norway,578
+NP,Nepal,524
+NQ,Trust Territory of the Pacific,NA
+NR,Nauru,520
+NS,Surinam,740
+NU,Nicaragua,558
+NZ,New Zealand,554
+OD,South Sudan,728
+PA,Paraguay,600
+PE,Peru,604
+PK,Pakistan,586
+PL,Poland,616
+PN,Panama,591
+PO,Portugal,620
+PP,Papua New Guinea,598
+PU,Guinea-Bissau,624
+QA,Qatar,634
+RB,Serbia,688
+RE,Reunion,638
+RH,Zimbabwe,716
+RO,Romania,642
+RP,Philippines,608
+RQ,Puerto Rico,630
+RS,Russian Federation,643
+RW,Rwanda,646
+S8,Belgium (without Luxembourg),NA
+SA,Saudi Arabia,682
+SB,St. Pierre and Miquelon,NA
+SC,St. Kitts and Nevis,659
+SE,Seychelles,690
+SF,"South Africa, Republic of",710
+SG,Senegal,686
+SH,St. Helena (Br W Afr),654
+SI,Slovenia,705
+SL,Sierra Leone,694
+SN,Singapore,702
+SO,Somalia,706
+SP,Spain,724
+SR,Serbia and Montenegro,891
+ST,St. Lucia,662
+SU,Sudan,729
+SW,Sweden,752
+SY,Syria,760
+SZ,Switzerland,756
+T3,"Africa, NEC",NA
+T4,French Equatorial Africa,NA
+T8,Fernando Po,NA
+TC,United Arab Emirates,784
+TD,Trinidad and Tobago,780
+TH,Thailand,764
+TI,"Tajikistan, Republic of",762
+TK,Turks and Caicos Islands,NA
+TN,Tonga,776
+TO,Togo,768
+TP,Sao Tome and Principe,678
+TS,Tunisia,788
+TU,Turkey,792
+TW,Taiwan,158
+TX,Turkmenistan,795
+TZ,"Tanzania, United Republic of",834
+UG,Uganda,800
+UK,United Kingdom,826
+UP,Ukraine,804
+UR,Union of Soviet Socialist Repu,NA
+US,United States,840
+UV,Burkina,854
+UY,Uruguay,858
+UZ,"Uzbekistan, Republic of",860
+V1,"Vietnam, North",NA
+V2,"Vietnam, Republic of (South)",NA
+VC,St. Vincent and the Grenadines,670
+VE,Venezuela,862
+VI,British Virgin Islands,92
+VM,Vietnam,704
+VO,Virgin Islands of the U.S.,850
+W7,British West Pacific Islands,NA
+WA,Namibia,516
+WE,West Bank,NA
+WI,Western Sahara,732
+WQ,Wake Island,NA
+WS,Western Samoa,882
+WZ,Swaziland,748
+X3,Canton and Enderbury Islands,NA
+X6,French Ind. Ocean Territory,NA
+X8,Southern Asia NEC,NA
+Y1,Leeward-Windward Islands,NA
+Y2,French West Indies,NA
+Y3,Azores,NA
+Y7,Canary Islands,NA
+Y9,Madeira Islands,NA
+YE,Yemen (Sanaa),NA
+YI,Yugoslavia (>01/2001),NA
+YM,Yemen,887
+YO,Yugoslavia,NA
+YS,Yemen (Aden),NA
+YU,Yugoslavia (>05/92),NA
+Z5,Ryukyu Islands/Nansei Islands,NA
+Z7,"Other Pacific Islands, NEC",NA
+ZA,Zambia,894
