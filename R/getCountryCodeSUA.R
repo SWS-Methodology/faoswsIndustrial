@@ -1,19 +1,17 @@
-##' Get Country Code SUA
+##' Get Country Code
 ##'
-##' @param country_name The name of the country.
+##' @param usdaCountryName The USDA country code of the country.
 ##'
 ##' @return Codes
 ##'
 ##' @export
 ##'
-##' @import countrycode
-##'
 
 
-getCountryCodeSUA = function(country_name){
-map = fread("Data/countriesUSDA.csv")
-map[, m49 := countrycode::countrycode(usdaCode, "fips104", "un")]
-result = merge(map, data.table(usdaCode = country_name, index = 1:length(country_name)),
+
+getCountryCode = function(usdaCountryName){
+map = fread("Data/industrialUseCountryMap.csv")
+result = merge(map, data.table(usdaCode = usdaCountryName, index = 1:length(usdaCountryName)),
                by="usdaCode", all.y=T)
 setkeyv(result, "usdaCode")
 result <- result[order(result$index)]
