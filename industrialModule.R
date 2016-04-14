@@ -13,16 +13,13 @@ DEBUG_MODE = Sys.getenv("R_DEBUG_MODE")
 R_SWS_SHARE_PATH = Sys.getenv("R_SWS_SHARE_PATH")
 
 if(!exists("DEBUG_MODE") || DEBUG_MODE == ""){
+  R_SWS_SHARE_PATH = "//hqlprsws1.hq.un.fao.org/sws_r_share"
+  files = dir("~/Github/faoswsIndustrial/R", full.names = TRUE)
   token = "41558a20-c419-4821-8288-2dc7ccbc5ecf"
   GetTestEnvironment("https://hqlqasws1.hq.un.fao.org:8181/sws", token)
+  sapply(files, source)
 
 }
-
-# source("~/Github/faoswsIndustrial/R/getBioFuelData.R")
-# source("~/Github/faoswsIndustrial/R/getCPCTreeItem.R")
-source("~/Github/faoswsIndustrial/R/getCountryCode.R")
-source("~/Github/faoswsIndustrial/R/getItemCommSUA.R")
-
 
 ## Extracting data from USDA domain/dataset
 
@@ -61,7 +58,7 @@ vegetableOilsDataForIndUses = vegetableOilsDataForIndUses[, list(Value = sum(Val
 
 # Let's split the data for E2 (EU-15) and for E4 (EU-28) but
 # first, we need to calculate the proportion by country
-memberStatesEU = fread("Data/memberStatesEU.csv")
+memberStatesEU = fread(paste0(R_SWS_SHARE_PATH, "/caetano/industrial/memberStatesEU.csv"))
 europeanCountries = memberStatesEU[, .N, usdaCode][, usdaCode]
 
 # Belgium and Luxembourg provided figures together to USDA. So, basically we need to split the data into these countries.
