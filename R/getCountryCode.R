@@ -10,7 +10,7 @@
 
 
 getCountryCode = function(usdaCountryName){
-map = fread("Data/industrialUseCountryMap.csv")
+map = fread(paste0(R_SWS_SHARE_PATH, "/caetano/industrial/industrialUseCountryMap.csv"))
 result = merge(map, data.table(usdaCode = usdaCountryName, index = 1:length(usdaCountryName)),
                by="usdaCode", all.y=T)
 setkeyv(result, "usdaCode")
