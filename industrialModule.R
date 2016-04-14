@@ -6,7 +6,6 @@ library(faoswsUtil)
 library(faoswsFlag)
 library(data.table)
 library(magrittr)
-library(countrycode)
 library(dplyr)
 
 
@@ -21,7 +20,7 @@ if(!exists("DEBUG_MODE") || DEBUG_MODE == ""){
 
 # source("~/Github/faoswsIndustrial/R/getBioFuelData.R")
 # source("~/Github/faoswsIndustrial/R/getCPCTreeItem.R")
-source("~/Github/faoswsIndustrial/R/getCountryCodeSUA.R")
+source("~/Github/faoswsIndustrial/R/getCountryCode.R")
 source("~/Github/faoswsIndustrial/R/getItemCommSUA.R")
 
 
@@ -222,7 +221,7 @@ vegetableOilsDataForIndUses[, group := "official"]
 industrialUsesData = rbind(vegetableOilsDataForIndUses, estimated)
 ##
 
-industrialUsesData[, geographicAreaM49 := as.character(getCountryCodeSUA(geographicUsda))]
+industrialUsesData[, geographicAreaM49 := as.character(getCountryCode(geographicUsda))]
 industrialUsesData[, c("geographicUsda", "group") := NULL]
 
 setcolorder(industrialUsesData, c("timePointYears", "geographicAreaM49", "measuredItemCPC", "Value"))
