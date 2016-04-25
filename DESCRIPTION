@@ -1,13 +1,13 @@
 Package: faoswsIndustrial
 Type: Package
 Title: Package to perform the imputation of industrial data
-Version: 0.0.1
+Version: 0.1.0
 Date: 2015-04-25
 Authors@R: c(person("Michael C.J.", "Kao", email = "michael.kao@fao.org", role = "aut"),
              person("Bruno Caetano", "Vidigal", email = "bruno.caetanovidigal@fao.org", role = c("aut", "cre")))
 Description: Package to perform the imputation of industrial data
 URL: https://github.com/SWS-Methodology/faoswsIndustrial
-License: GPL (>= 3)
+License: FAO
 Imports:
     countrycode
 swsDatasetDepends: usda:usda_psd_nv,
