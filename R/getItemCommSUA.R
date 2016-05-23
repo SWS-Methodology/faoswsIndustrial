@@ -8,12 +8,12 @@
 ##'
 
 getItemCommSUA = function(Measured_Item_Psd){
-  map = fread(paste0(R_SWS_SHARE_PATH, "/caetano/industrial/industrialUseCommodityMap.csv"))
-  result = merge(map, data.table(measuredItemPsd = as.numeric(Measured_Item_Psd), index = 1:length(Measured_Item_Psd)),
-                 by="measuredItemPsd", all.y=T)
-  setkeyv(result, "measuredItemPsd")
+  map = ReadDatatable("commodity_map")
+  result = merge(map, data.table(item_psd = as.character(Measured_Item_Psd), index = 1:length(Measured_Item_Psd)),
+                 by="item_psd", all.y=T)
+  setkeyv(result, "item_psd")
   result <- result[order(result$index)]
-  result[, measuredItemCPC]
+  result[, item_cpc]
 }
 
 
