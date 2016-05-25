@@ -23,10 +23,9 @@ vegetableOilsDataForIndUses <- getIndustrialData(yearRange)
 
 industrialUsesData <- splitIndustrialData(vegetableOilsDataForIndUses)
 industrialUsesData[, measuredElement:= "5165"]
-industrialUsesData[, Value := 1000 * Value]
 industrialUsesData[group == "official", flagObservationStatus := ""]
 industrialUsesData[group == "official", flagMethod:= "p"]
-industrialUsesData[group == "estimated", flagObservationStatus := "E"]
+industrialUsesData[group == "estimated", flagObservationStatus := "I"]
 industrialUsesData[group == "estimated", flagMethod := "e"]
 
 industrialUsesData[, group := NULL]
