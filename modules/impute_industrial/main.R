@@ -8,14 +8,29 @@ library(data.table)
 library(magrittr)
 library(dplyr)
 
+R_SWS_SHARE_PATH = "//hqlprsws1.hq.un.fao.org/sws_r_share"
 
 if(CheckDebug()){
-  token = "41558a20-c419-4821-8288-2dc7ccbc5ecf"
-  GetTestEnvironment("https://hqlqasws1.hq.un.fao.org:8181/sws", token)
-  R_SWS_SHARE_PATH = "//hqlprsws1.hq.un.fao.org/sws_r_share"
-  files = dir("~/Github/faoswsIndustrial/R", full.names = TRUE)
-  sapply(files, source)
+
+  message("Not on server, so setting up environment...")
+
+  library(faoswsModules)
+  SETTINGS <- ReadSettings("modules/impute_industrial/sws.yml")
+
+  # If you're not on the system, your settings will overwrite any others
+  R_SWS_SHARE_PATH <- SETTINGS[["share"]]
+
+  # Define where your certificates are stored
+  SetClientFiles(SETTINGS[["certdir"]])
+
+  # Get session information from SWS. Token must be obtained from web interface
+  GetTestEnvironment(baseUrl = SETTINGS[["server"]],
+                     token = SETTINGS[["token"]])
+
 }
+
+files = dir("modules/impute_industrial/R", full.names = TRUE)
+sapply(files, source)
 
 ## Extracting data from USDA domain/dataset
 yearRange <- as.character(1961:2015)
