@@ -7,8 +7,12 @@ library(faoswsFlag)
 library(data.table)
 library(magrittr)
 library(dplyr)
+# library(faoswsIndustrial)
 
-R_SWS_SHARE_PATH = "//hqlprsws1.hq.un.fao.org/sws_r_share"
+# R_SWS_SHARE_PATH = "//hqlprsws1.hq.un.fao.org/sws_r_share"
+
+R_SWS_SHARE_PATH <- Sys.getenv("R_SWS_SHARE_PATH")
+
 
 if(CheckDebug()){
 
@@ -29,7 +33,7 @@ if(CheckDebug()){
 
 }
 
-files = dir("modules/impute_industrial/R", full.names = TRUE)
+files = dir("R", full.names = TRUE)
 sapply(files, source)
 
 ## Extracting data from USDA domain/dataset
