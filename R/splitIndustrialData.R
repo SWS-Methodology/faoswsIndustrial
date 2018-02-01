@@ -147,6 +147,8 @@ splitIndustrialData <- function(usdaData) {
   industrialUsesData <- rbind(data, estimated)
   industrialUsesData[, geographicAreaM49 := as.character(getCountryCode(geographicUsda))]
   industrialUsesData[, c("geographicUsda") := NULL]
+  # converting from 1000t to tonnes
+  industrialUsesData[, Value := 1000 * Value]
   setcolorder(industrialUsesData, c("timePointYears", "geographicAreaM49",
                                     "measuredItemCPC", "Value", "group"))
   return(industrialUsesData)
