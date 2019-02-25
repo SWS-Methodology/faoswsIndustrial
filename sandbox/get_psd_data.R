@@ -1,3 +1,5 @@
+library(data.table)
+
 # Download: https://apps.fas.usda.gov/psdonline/downloads/psd_alldata_csv.zip
 # Unzip it to psd_alldata.csv
 
